@@ -1,0 +1,38 @@
+<service-test>
+  <unique-id>testing-jruby-processing</unique-id>
+  <test-client class="embedded-jmx-test-client"/>
+  <helpers/>
+  <test-list>
+    <unique-id>jruby-processing</unique-id>
+    <test>
+      <unique-id>testing-jruby</unique-id>
+      <test-case>
+        <unique-id>test-myjsonpath.rb</unique-id>
+        <input-message-provider>
+          <metadata-provider class="inline-metadata-provider"/>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+          <assertions>
+              <assert-payload-equals>
+                <payload>["bar"]</payload>
+              </assert-payload-equals>
+          </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>jruby-processing</channel>
+            <workflow>myjsonpath.rb</workflow>
+            <service>jruby-service</service>
+          </service-unique-id-preprocessor>
+            <variable-substitution-preprocessor>
+                <property-file>file:///${service.tester.working.directory}/src/main/interlok/config/variables.properties</property-file>
+            </variable-substitution-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+  </test-list>
+</service-test>
